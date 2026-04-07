@@ -1,320 +1,80 @@
-import { useRouter } from "expo-router";
-import React, { useState } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+// app/index.tsx  — Pantalla principal de la tienda
 
-//COMPONENTES REUTILIZAIBLES
-function TarjetaPerfil(props) {
-  return (
-    <View style={styles.card}>
-      <Text>{props.nombre}</Text>
-      <Text>{props.ciudad}</Text>
-      <Text>{props.programa}</Text>
-    </View>
-  );
-}
+import { useRouter } from "expo-router";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function Home() {
   const router = useRouter();
-  const [estado, setEstado] = useState("Disponible");
-
-  const cambiarEstado = () => {
-    setEstado((prev) =>
-      prev === "Disponible" ? "No Disponible" : "Disponible",
-    );
-  };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.titulo}>Perfil Académico</Text>
+    <View style={styles.screen}>
+      <View style={styles.header}>
+        <Text style={styles.storeName}>PIXEL VAULT</Text>
+        <Text style={styles.storeSub}>GAMING STORE</Text>
+      </View>
 
-      <TarjetaPerfil
-        nombre="Andrea Benavides"
-        ciudad="Ciudad: Pasto"
-        programa="Ingeniería de Sistemas"
-      />
+      <Text style={styles.bienvenida}>
+        Encuentra los mejores juegos y consolas de Nintendo, PlayStation y Xbox
+      </Text>
 
-      <Text style={styles.estado}>Estado actual: {estado}</Text>
+      <View style={styles.botonesWrap}>
+        <TouchableOpacity
+          style={[styles.botonGrande, styles.botonJuegos]}
+          onPress={() => router.push("/videojuegos")}
+          activeOpacity={0.85}
+        >
+          <Text style={styles.botonIcono}>🎮</Text>
+          <View>
+            <Text style={styles.botonTitulo}>VIDEOJUEGOS</Text>
+            <Text style={styles.botonSub}>Fútbol · Acción · Carreras · Más</Text>
+          </View>
+          <Text style={styles.botonFlecha}>›</Text>
+        </TouchableOpacity>
 
-      <Pressable style={styles.botonSecundario} onPress={cambiarEstado}>
-        <Text style={styles.botonTexto}>Cambiar estado</Text>
-      </Pressable>
+        <TouchableOpacity
+          style={[styles.botonGrande, styles.botonConsolas]}
+          onPress={() => router.push("/consolas")}
+          activeOpacity={0.85}
+        >
+          <Text style={styles.botonIcono}>🕹️</Text>
+          <View>
+            <Text style={styles.botonTitulo}>CONSOLAS</Text>
+            <Text style={styles.botonSub}>Nintendo · PlayStation · Xbox</Text>
+          </View>
+          <Text style={styles.botonFlecha}>›</Text>
+        </TouchableOpacity>
+      </View>
 
-      {/* Navegación a Detalle */}
-      <Pressable
-        style={styles.botonPrincipal}
-        onPress={() =>
-          router.push({
-            pathname: "/detalle",
-            params: {
-              nombre: "Cristhian - Jonathan",
-              ciudad: "Pasto",
-              programa: "Ingeniería de Sistemas",
-              estado: estado,
-            },
-          })
-        }
-      >
-        <Text style={styles.botonTexto}>Ir a Detalle</Text>
-      </Pressable>
-
-      {/* Navegación a Historial Académico */}
-      <Pressable
-        style={styles.botonHistorial}
-        onPress={() => router.push("/historial")}
-      >
-        <Text style={styles.botonTexto}>📋 Historial Académico</Text>
-      </Pressable>
-
-      {/* Navegación a Configuración */}
-      <Pressable
-        style={styles.botonConfiguracion}
-        onPress={() => router.push("/configuracion")}
-      >
-        <Text style={styles.botonTexto}>⚙️ Configuración</Text>
-      </Pressable>
+      <View style={styles.marcasRow}>
+        <View style={[styles.marcaChip, { borderColor: "#e4000f50" }]}>
+          <Text style={[styles.marcaTexto, { color: "#e4000f" }]}>Nintendo</Text>
+        </View>
+        <View style={[styles.marcaChip, { borderColor: "#0070d150" }]}>
+          <Text style={[styles.marcaTexto, { color: "#0070d1" }]}>PlayStation</Text>
+        </View>
+        <View style={[styles.marcaChip, { borderColor: "#52b04350" }]}>
+          <Text style={[styles.marcaTexto, { color: "#52b043" }]}>Xbox</Text>
+        </View>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#f4f6f8",
-    padding: 20,
-    justifyContent: "center",
-  },
-
-  titulo: {
-    fontSize: 28,
-    fontWeight: "bold",
-    color: "#111827",
-    marginBottom: 20,
-    textAlign: "center",
-  },
-
-  card: {
-    backgroundColor: "white",
-    borderRadius: 16,
-    padding: 18,
-    marginBottom: 20,
-    elevation: 4,
-  },
-
-  nombre: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#111827",
-    marginBottom: 8,
-  },
-
-  info: {
-    fontSize: 15,
-    color: "#4b5563",
-    marginBottom: 4,
-  },
-
-  estado: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: "#1f2937",
-    marginBottom: 15,
-    textAlign: "center",
-  },
-
-  botonPrincipal: {
-    backgroundColor: "#111827",
-    paddingVertical: 13,
-    borderRadius: 12,
-    alignItems: "center",
-    marginTop: 10,
-  },
-
-  botonSecundario: {
-    backgroundColor: "#6b7280",
-    paddingVertical: 13,
-    borderRadius: 12,
-    alignItems: "center",
-  },
-
-  botonHistorial: {
-    backgroundColor: "#1d4ed8",
-    paddingVertical: 13,
-    borderRadius: 12,
-    alignItems: "center",
-    marginTop: 10,
-  },
-
-  botonContacto: {
-    backgroundColor: "#0077b5",
-    paddingVertical: 13,
-    borderRadius: 12,
-    alignItems: "center",
-    marginTop: 10,
-  },
-
-  botonConfiguracion: {
-    backgroundColor: "#6b7280",
-    paddingVertical: 13,
-    borderRadius: 12,
-    alignItems: "center",
-    marginTop: 10,
-  },
-
-  botonTexto: {
-    color: "white",
-    fontWeight: "bold",
-    fontSize: 16,
-  },
+  screen: { flex: 1, backgroundColor: "#080c14", paddingTop: 60, paddingHorizontal: 24 },
+  header: { alignItems: "center", marginBottom: 8 },
+  storeName: { fontSize: 34, fontWeight: "900", letterSpacing: 6, color: "#e2e8f0" },
+  storeSub: { fontSize: 11, letterSpacing: 5, color: "#00d4ff", fontWeight: "700", marginTop: 2 },
+  bienvenida: { fontSize: 14, color: "#4a6080", textAlign: "center", lineHeight: 21, marginTop: 20, marginBottom: 36 },
+  botonesWrap: { gap: 16 },
+  botonGrande: { flexDirection: "row", alignItems: "center", gap: 16, borderRadius: 18, padding: 22, borderWidth: 1 },
+  botonJuegos: { backgroundColor: "#0d1a2e", borderColor: "#00d4ff30" },
+  botonConsolas: { backgroundColor: "#0d1a0d", borderColor: "#52b04330" },
+  botonIcono: { fontSize: 36 },
+  botonTitulo: { fontSize: 16, fontWeight: "900", color: "#e2e8f0", letterSpacing: 1.5 },
+  botonSub: { fontSize: 12, color: "#4a6080", marginTop: 3 },
+  botonFlecha: { fontSize: 28, color: "#2a4a70", marginLeft: "auto" },
+  marcasRow: { flexDirection: "row", justifyContent: "center", gap: 10, marginTop: 36 },
+  marcaChip: { borderWidth: 1, borderRadius: 20, paddingHorizontal: 14, paddingVertical: 6 },
+  marcaTexto: { fontSize: 12, fontWeight: "700" },
 });
-
-/*
-import { useRoute } from "@react-navigation/native";
-import React, {useState} from "react";
-import {View, Text, Pressable, StyleSheet} from "react-native";
-import {NavigationContainer} from "@react-navigation/native";
-import {createNativeStackNavigator} from "@react-navigation/native-stack";
-
-const Stack = createNativeStackNavigator();
-
-//COMPONENTS REUTILIZAVEIS
-function TarjetaPerfil(props) {
-  return (
-    <View style={Styles.card}>
-      <Text style={Styles.nombre}>Nombre: {props.nombre} </Text>
-      <Text style={Styles.info}>Ciudad:  {props.ciudad} </Text>
-      <Text style={Styles.info}>Programa: {props.programa} </Text>
-    </View>
-  );
-}
-
-//SCREEN 1
-function InicioScreen({navigation}) {
-  const [estado, setEstado] = useState ("Disponible");
-  const cambiarEstado = () => {
-    setEstado((prev) => prev === "Disponible" ? "No Disponible" : "Disponible");
-  };
-  return (
-    <View style={Styles.container}>
-      <Text style={Styles.titulo}>Perfil Académico</Text>
-
-      <TarjetaPerfil
-        nombre="Andrea Benavides"
-        ciudad="Pasto"
-        programa="Ingeniería de Sistemas"
-      />
-
-      <Text style={Styles.estado}>Estado actual: {estado}</Text>
-
-      <Pressable style={Styles.botonSecundario} onPress={cambiarEstado}>
-        <Text style={Styles.botonTexto}>Cambiar estado</Text>
-      </Pressable>
-
-      <Pressable
-        style={Styles.botonPrincipal}
-        onPress={() =>
-          navigation.navigate("Detalle", {
-            nombre: "Andrea Benavides",
-            ciudad: "Pasto",
-            programa: "Ingeniería de Sistemas",
-            estado: estado,
-          })
-        }
-      >
-        <Text style={Styles.botonTexto}>Ver detalle</Text>
-      </Pressable>
-    </View>
-  );
-}
-
-//SCREEN 2
-function DetalleScreen({route, navigation}) {
-  const {nombre, ciudad, programa, estado} = route.params;
-  return (
-    <View style={Styles.container}>
-      <Text style={Styles.nombre}>Nombre: {nombre}</Text>
-      <Text style={Styles.info}>Ciudad: {ciudad}</Text>
-      <Text style={Styles.info}>Programa: {programa}</Text>
-
-      <TarjetaPerfil
-        nombre={nombre}
-        ciudad={ciudad}
-        programa={programa}a
-      />
-
-      <Text style={Styles.estado}>Estado: {estado}</Text>
-    </View>
-  );
-}
-
-const Styles = StyleSheet.create(
-  {
-    container: {
-    flex: 1,
-    backgroundColor: "#f4f6f8",
-    padding: 20,
-    justifyContent: "center",
-  },
-
-  titulo: {
-    fontSize: 28,
-    fontWeight: "bold",
-    color: "#111827",
-    marginBottom: 20,
-    textAlign: "center",
-  },
-
-  card: {
-    backgroundColor: "white",
-    borderRadius: 16,
-    padding: 18,
-    marginBottom: 20,
-    elevation: 4,
-  },
-
-  nombre: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#111827",
-    marginBottom: 8,
-  },
-
-  info: {
-    fontSize: 15,
-    color: "#4b5563",
-    marginBottom: 4,
-  },
-
-  estado: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: "#1f2937",
-    marginBottom: 15,
-    textAlign: "center",
-  },
-
-  botonPrincipal: {
-    backgroundColor: "#111827",
-    paddingVertical: 13,
-    borderRadius: 12,
-    alignItems: "center",
-    marginTop: 10,
-  },
-
-  botonSecundario: {
-    backgroundColor: "#6b7280",
-    paddingVertical: 13,
-    borderRadius: 12,
-    alignItems: "center",
-  },
-
-  botonTexto: {
-    color: "white",
-    fontWeight: "bold",
-    fontSize: 16,
-  },
-
-  }
-  
-);
-
-*/
